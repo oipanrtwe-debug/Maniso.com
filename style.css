@@ -2,55 +2,40 @@
 
 
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:"Vazirmatn", sans-serif;
+    box-sizing:border-box;
+    font-family:Vazirmatn,sans-serif;
 }
 
 
 html,body{
-
     width:100%;
-    max-width:100%;
     overflow-x:hidden;
-
-}
-
-
-body{
-
     background:#07070b;
     color:white;
-
 }
 
-
-
-/* HEADER */
 
 header{
 
-    width:100%;
     height:80px;
+    width:100%;
 
     background:#101015;
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
-    padding:0 5%;
-
-    border-bottom:1px solid #ffffff12;
+    padding:0 25px;
 
     position:sticky;
-
     top:0;
 
     z-index:100;
+
+    border-bottom:1px solid #ffffff12;
 
 }
 
@@ -59,7 +44,6 @@ header{
 .logo{
 
     font-size:34px;
-
     font-weight:900;
 
     color:#ffc400;
@@ -70,12 +54,10 @@ header{
 
 
 
-
 .menu-btn{
 
     background:none;
-
-    border:none;
+    border:0;
 
     color:white;
 
@@ -87,27 +69,14 @@ header{
 
 
 
-.menu-btn:hover{
-
-    color:#ffc400;
-
-}
-
-
-
-
-
 .menu-box{
 
     position:absolute;
 
     top:80px;
-
     left:15px;
 
     width:220px;
-
-    max-width:90vw;
 
     background:#111116;
 
@@ -115,11 +84,9 @@ header{
 
     border-radius:18px;
 
-    padding:15px;
+    padding:10px;
 
     display:none;
-
-    box-shadow:0 15px 40px #000;
 
 }
 
@@ -137,7 +104,7 @@ header{
 
     display:block;
 
-    padding:14px;
+    padding:15px;
 
     color:white;
 
@@ -162,9 +129,7 @@ header{
 
 .hero{
 
-    width:100%;
-
-    padding:70px 5%;
+    padding:70px 25px;
 
     background:
     radial-gradient(circle at right,#382900,#07070b 60%);
@@ -180,13 +145,11 @@ header{
 }
 
 
-
 .hero span{
 
     color:#ffc400;
 
 }
-
 
 
 .hero p{
@@ -201,26 +164,19 @@ header{
 
 
 
-
-
 /* SEARCH */
 
 
 .search{
 
-    width:100%;
-
-    padding:30px 5%;
+    padding:25px;
 
 }
-
 
 
 .search input{
 
     width:100%;
-
-    max-width:100%;
 
     padding:16px;
 
@@ -232,10 +188,7 @@ header{
 
     color:white;
 
-    outline:none;
-
 }
-
 
 
 
@@ -244,9 +197,7 @@ header{
 
 .categories{
 
-    width:100%;
-
-    padding:0 5% 30px;
+    padding:0 25px 30px;
 
     display:flex;
 
@@ -276,82 +227,52 @@ header{
 
 
 
-
-
-/* TITLE */
+/* CARDS */
 
 
 .title{
 
-    width:100%;
+    padding:0 25px;
 
-    padding:0 5%;
+    color:#ffc400;
 
     font-size:28px;
 
     font-weight:900;
 
-    color:#ffc400;
-
 }
 
 
 
-
-
-/* CARDS */
-
-
 .container{
 
-    width:100%;
-
-    padding:30px 5%;
+    padding:30px 25px;
 
     display:grid;
 
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 
-    gap:25px;
+    gap:20px;
 
 }
-
 
 
 
 .card{
 
-    width:100%;
-
     background:#111116;
 
-    border:1px solid #252530;
-
-    border-radius:18px;
+    border-radius:20px;
 
     overflow:hidden;
 
-    transition:.3s;
+    border:1px solid #292933;
 
 }
-
-
-
-.card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:0 0 30px #ffc40033;
-
-}
-
-
 
 
 
 .cover{
-
-    width:100%;
 
     height:300px;
 
@@ -373,20 +294,11 @@ header{
 
 
 
-.badge{
-
-    position:absolute;
-
-}
-
-
-
 .info{
 
     padding:20px;
 
 }
-
 
 
 .status{
@@ -399,19 +311,7 @@ header{
 
 
 
-.chapter{
-
-    margin-top:15px;
-
-    color:#ffc400;
-
-}
-
-
-
-
-
-/* REQUEST PAGE */
+/* REQUEST */
 
 
 .request-box{
@@ -434,13 +334,20 @@ header{
 
 
 
+.request-box h1{
+
+    text-align:center;
+
+    color:#ffc400;
+
+}
+
+
+
 .request-box input,
 .request-box textarea{
 
-
     width:100%;
-
-    max-width:100%;
 
     margin-top:15px;
 
@@ -462,10 +369,7 @@ header{
 
     height:130px;
 
-    resize:none;
-
 }
-
 
 
 
@@ -477,7 +381,7 @@ header{
 
     padding:15px;
 
-    border:0;
+    border:none;
 
     border-radius:30px;
 
@@ -489,22 +393,15 @@ header{
 
 
 
-
-
-/* FOOTER */
-
-
 footer{
 
-    width:100%;
-
-    margin-top:50px;
+    margin-top:60px;
 
     padding:30px;
 
-    text-align:center;
-
     background:#101015;
+
+    text-align:center;
 
     color:#777;
 
@@ -512,39 +409,19 @@ footer{
 
 
 
-
-/* MOBILE */
-
-
 @media(max-width:600px){
 
+    .hero h1{
 
-.logo{
+        font-size:32px;
 
-    font-size:28px;
-
-}
-
-
-.hero h1{
-
-    font-size:32px;
-
-}
+    }
 
 
-.container{
+    .logo{
 
-    grid-template-columns:1fr;
+        font-size:28px;
 
-}
+    }
 
-
-.request-box{
-
-    padding:25px;
-
-}
-
-
-}
+    }
