@@ -1,12 +1,679 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa" dir="rtl">
 <head>
-<title>Maniso</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MANISO | مانیسو</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@700;900&family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+    background:
+    radial-gradient(circle at top,#142820,#050505 60%);
+    
+    color:white;
+    font-family:"Vazirmatn",sans-serif;
+    overflow-x:hidden;
+
+}
+
+
+
+/* نور پس زمینه */
+
+body::before{
+
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:#00ff99;
+filter:blur(180px);
+opacity:.15;
+top:-200px;
+left:-200px;
+z-index:-1;
+
+}
+
+
+
+/* HEADER */
+
+
+header{
+
+height:90px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:0 50px;
+
+background:rgba(0,0,0,.7);
+
+backdrop-filter:blur(10px);
+
+border-bottom:1px solid #222;
+
+}
+
+
+
+.logo{
+
+font-family:"Cinzel",serif;
+
+font-size:55px;
+
+font-weight:900;
+
+letter-spacing:5px;
+
+color:#00ff99;
+
+text-shadow:
+
+0 0 10px #00ff99,
+0 0 40px #00ff99;
+
+animation:pulse 2s infinite;
+
+}
+
+
+
+@keyframes pulse{
+
+50%{
+
+text-shadow:
+
+0 0 25px #00ff99,
+0 0 70px #00ff99;
+
+}
+
+}
+
+
+
+nav a{
+
+color:#ddd;
+
+text-decoration:none;
+
+margin:15px;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+
+nav a:hover{
+
+color:#00ff99;
+
+}
+
+
+
+/* HERO */
+
+
+.hero{
+
+text-align:center;
+
+padding:120px 20px;
+
+}
+
+
+
+.hero h1{
+
+font-family:"Cinzel",serif;
+
+font-size:75px;
+
+font-weight:900;
+
+margin:0;
+
+animation:up 1s;
+
+}
+
+
+
+.hero span{
+
+color:#00ff99;
+
+}
+
+
+
+.hero p{
+
+font-size:22px;
+
+color:#aaa;
+
+margin-top:25px;
+
+}
+
+
+
+@keyframes up{
+
+from{
+
+opacity:0;
+transform:translateY(50px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+display:inline-block;
+
+margin-top:35px;
+
+padding:16px 55px;
+
+border-radius:50px;
+
+background:#00ff99;
+
+color:black;
+
+font-weight:900;
+
+text-decoration:none;
+
+box-shadow:0 0 30px #00ff99;
+
+transition:.3s;
+
+}
+
+
+
+.btn:hover{
+
+transform:scale(1.1);
+
+}
+
+
+
+/* SECTION */
+
+
+section{
+
+padding:60px 8%;
+
+}
+
+
+
+.title{
+
+font-size:40px;
+
+font-weight:900;
+
+border-right:6px solid #00ff99;
+
+padding-right:15px;
+
+}
+
+
+
+/* CARDS */
+
+
+.cards{
+
+display:flex;
+
+gap:30px;
+
+flex-wrap:wrap;
+
+margin-top:40px;
+
+}
+
+
+
+.card{
+
+width:290px;
+
+height:350px;
+
+background:
+
+linear-gradient(
+
+145deg,
+
+#181818,
+
+#090909
+
+);
+
+border-radius:25px;
+
+border:1px solid #333;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+flex-direction:column;
+
+transition:.5s;
+
+animation:show 1s;
+
+}
+
+
+
+.card:hover{
+
+transform:
+
+translateY(-15px)
+
+scale(1.03);
+
+border-color:#00ff99;
+
+box-shadow:
+
+0 0 40px rgba(0,255,153,.3);
+
+}
+
+
+
+@keyframes show{
+
+from{
+
+opacity:0;
+
+transform:translateY(60px);
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+
+
+.icon{
+
+font-size:80px;
+
+filter:drop-shadow(0 0 20px #00ff99);
+
+}
+
+
+
+.card h2{
+
+font-size:28px;
+
+color:#00ff99;
+
+font-weight:900;
+
+}
+
+
+
+.card p{
+
+color:#aaa;
+
+}
+
+
+
+/* ABOUT */
+
+
+.about{
+
+background:#111;
+
+padding:40px;
+
+border-radius:30px;
+
+text-align:center;
+
+border:1px solid #222;
+
+}
+
+
+
+.about h2{
+
+font-size:35px;
+
+color:#00ff99;
+
+}
+
+
+
+/* FOOTER */
+
+
+footer{
+
+padding:30px;
+
+text-align:center;
+
+color:#777;
+
+border-top:1px solid #222;
+
+}
+
+
+
+/* MOBILE */
+
+
+@media(max-width:700px){
+
+
+.logo{
+
+font-size:40px;
+
+}
+
+
+nav{
+
+display:none;
+
+}
+
+
+.hero h1{
+
+font-size:45px;
+
+}
+
+
+}
+
+
+</style>
+
+
 </head>
 
+
+
 <body>
-<h1>به مانیسو خوش آمدید</h1>
-<p>ترجمه فارسی مانهوا</p>
+
+
+
+<header>
+
+<div class="logo">
+MANISO
+</div>
+
+
+<nav>
+
+<a href="#">خانه</a>
+
+<a href="#">مانهواها</a>
+
+<a href="#">درباره</a>
+
+<a href="#">تماس</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+<div class="hero">
+
+
+<h1>
+
+به <span>مانیـسو</span> خوش آمدید
+
+</h1>
+
+
+<p>
+
+دنیای مانهواهای فارسی با تجربه‌ای متفاوت
+
+</p>
+
+
+<a class="btn">
+
+شروع ماجراجویی
+
+</a>
+
+
+</div>
+
+
+
+
+
+<section>
+
+
+<h2 class="title">
+
+📚 مانهواها
+
+</h2>
+
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<div class="icon">
+
+⚔️
+
+</div>
+
+<h2>
+
+درحال ساخت
+
+</h2>
+
+
+<p>
+
+به زودی...
+
+</p>
+
+
+</div>
+
+
+
+<div class="card">
+
+<div class="icon">
+
+🔥
+
+</div>
+
+
+<h2>
+
+پروژه جدید
+
+</h2>
+
+
+<p>
+
+منتظر باشید
+
+</p>
+
+
+</div>
+
+
+
+<div class="card">
+
+<div class="icon">
+
+👑
+
+</div>
+
+
+<h2>
+
+VIP
+
+</h2>
+
+
+<p>
+
+به زودی اضافه می‌شود
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<section>
+
+
+<div class="about">
+
+
+<h2>
+
+✨ درباره مانیسو
+
+</h2>
+
+
+<p>
+
+مانیـسو یک پلتفرم برای عاشقان مانهوا است.
+<br><br>
+هدف ما ساخت بهترین تجربه خواندن مانهوا به زبان فارسی است.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+<footer>
+
+MANISO © 2026
+
+<br>
+
+ساخته شده برای عاشقان مانهوا 🖤
+
+</footer>
+
+
+
 </body>
 
 </html>
