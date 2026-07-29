@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maniso</title>
+<title>مانیـسو | ترجمه مانهوا فارسی</title>
+
+<meta name="description" content="مانیـسو، مرجع ترجمه مانهواهای فارسی">
 
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -17,67 +20,128 @@ box-sizing:border-box;
 font-family:Vazirmatn;
 }
 
+
 body{
 
 margin:0;
+
 background:#07070b;
+
 color:white;
 
 }
 
 
-/* HEADER */
 
 header{
 
-height:75px;
+height:80px;
+
+background:#101015;
 
 display:flex;
+
 align-items:center;
+
 justify-content:space-between;
 
 padding:0 7%;
 
-background:#101015;
-
 border-bottom:1px solid #ffffff12;
 
 position:sticky;
+
 top:0;
 
-z-index:20;
+z-index:10;
 
 }
+
 
 
 .logo{
 
-font-size:32px;
+font-size:36px;
+
 font-weight:900;
 
-color:#f5c542;
+color:#ffc400;
+
+text-shadow:0 0 20px #ffc400;
 
 }
 
 
-nav a{
 
-color:#ccc;
+
+.menu-btn{
+
+background:none;
+
+border:none;
+
+font-size:35px;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+
+
+.menu-box{
+
+position:absolute;
+
+top:80px;
+
+left:7%;
+
+width:220px;
+
+background:#111116;
+
+border-radius:18px;
+
+border:1px solid #333;
+
+padding:15px;
+
+display:none;
+
+}
+
+
+
+.menu-box.active{
+
+display:block;
+
+}
+
+
+
+.menu-box a{
+
+display:block;
+
+padding:15px;
+
+color:white;
 
 text-decoration:none;
 
-margin:0 15px;
-
-font-size:15px;
-
-transition:.3s;
+border-bottom:1px solid #ffffff12;
 
 }
 
 
-nav a:hover{
 
-color:#f5c542;
+.menu-box a:hover{
+
+color:#ffc400;
 
 }
 
@@ -88,56 +152,62 @@ color:#f5c542;
 
 .hero{
 
-padding:55px 7% 30px;
+padding:70px 7%;
+
+background:
+radial-gradient(circle at right,#382900,#07070b 60%);
 
 }
+
 
 
 .hero h1{
 
-font-size:42px;
-
-margin:0;
+font-size:50px;
 
 }
+
 
 
 .hero span{
 
-color:#f5c542;
+color:#ffc400;
 
 }
+
 
 
 .hero p{
 
-color:#999;
+font-size:20px;
+
+color:#aaa;
 
 }
 
 
 
-/* SEARCH */
 
 
 .search{
 
-padding:0 7%;
+padding:30px 7%;
 
 }
+
 
 
 .search input{
 
 width:100%;
 
+padding:17px;
+
 background:#15151c;
 
-border:1px solid #292933;
+border:1px solid #333;
 
-border-radius:12px;
-
-padding:16px;
+border-radius:15px;
 
 color:white;
 
@@ -147,31 +217,29 @@ font-size:16px;
 
 
 
-/* CATEGORY */
 
 
 .categories{
 
 display:flex;
 
-gap:12px;
+gap:15px;
 
-padding:30px 7%;
-
-overflow:auto;
+padding:0 7% 35px;
 
 }
+
 
 
 .categories button{
 
 background:#15151c;
 
-color:#ddd;
+color:white;
 
-border:1px solid #292933;
+border:1px solid #333;
 
-padding:10px 22px;
+padding:10px 25px;
 
 border-radius:20px;
 
@@ -180,21 +248,20 @@ border-radius:20px;
 
 
 
-/* TITLE */
-
-
 .title{
 
 padding:0 7%;
 
-font-size:25px;
+font-size:28px;
 
 font-weight:900;
+
+color:#ffc400;
 
 }
 
 
-/* CARDS */
+
 
 
 .container{
@@ -203,8 +270,7 @@ padding:30px 7%;
 
 display:grid;
 
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 
 gap:25px;
 
@@ -212,17 +278,19 @@ gap:25px;
 
 
 
+
+
 .card{
 
 background:#111116;
 
-border-radius:15px;
+border:1px solid #252530;
+
+border-radius:18px;
 
 overflow:hidden;
 
-border:1px solid #22222b;
-
-transition:.35s;
+transition:.3s;
 
 }
 
@@ -230,11 +298,9 @@ transition:.35s;
 
 .card:hover{
 
-transform:translateY(-8px);
+transform:translateY(-10px);
 
-border-color:#f5c542;
-
-box-shadow:0 15px 35px #000;
+box-shadow:0 0 30px #ffc40033;
 
 }
 
@@ -243,20 +309,11 @@ box-shadow:0 15px 35px #000;
 
 .cover{
 
-height:310px;
+height:320px;
 
 background:
 
-linear-gradient(
-
-145deg,
-
-#20202a,
-
-#0b0b10
-
-);
-
+linear-gradient(135deg,#252532,#0b0b10);
 
 display:flex;
 
@@ -264,18 +321,15 @@ align-items:center;
 
 justify-content:center;
 
-
-font-size:32px;
+font-size:35px;
 
 font-weight:900;
 
-color:#f5c542;
-
+color:#ffc400;
 
 position:relative;
 
 }
-
 
 
 
@@ -287,7 +341,7 @@ top:15px;
 
 right:15px;
 
-background:#f5c542;
+background:#ffc400;
 
 color:#111;
 
@@ -297,15 +351,14 @@ border-radius:20px;
 
 font-size:13px;
 
-font-weight:bold;
-
 }
+
 
 
 
 .info{
 
-padding:18px;
+padding:20px;
 
 }
 
@@ -313,9 +366,7 @@ padding:18px;
 
 .info h2{
 
-font-size:18px;
-
-margin:0 0 10px;
+margin:0;
 
 }
 
@@ -325,30 +376,29 @@ margin:0 0 10px;
 
 color:#999;
 
-font-size:14px;
+margin-top:10px;
 
 }
+
 
 
 .chapter{
 
-margin-top:10px;
+color:#ffc400;
 
-color:#f5c542;
+margin-top:15px;
 
 }
 
 
 
-
-/* FOOTER */
 
 
 footer{
 
 margin-top:50px;
 
-padding:30px;
+padding:35px;
 
 background:#101015;
 
@@ -359,10 +409,10 @@ color:#777;
 }
 
 
-
 </style>
 
 </head>
+
 
 
 <body>
@@ -371,22 +421,43 @@ color:#777;
 
 <header>
 
+
 <div class="logo">
 مانیـسو
 </div>
 
 
-<nav>
 
-<a href="#">خانه</a>
+<button class="menu-btn" onclick="openMenu()">
+☰
+</button>
 
-<a href="#">مانهوا</a>
 
-<a href="#">جدیدترین</a>
 
-<a href="#">درخواست</a>
+<div class="menu-box" id="menu">
 
-</nav>
+<a href="index.html">
+خانه
+</a>
+
+
+<a href="#">
+مانهوا
+</a>
+
+
+<a href="#">
+جدیدترین
+</a>
+
+
+<a href="request.html">
+درخواست
+</a>
+
+
+</div>
+
 
 
 </header>
@@ -394,18 +465,26 @@ color:#777;
 
 
 
+
 <section class="hero">
 
+
 <h1>
-به دنیای مانهوا <span>مانیـسو</span> خوش آمدید
+
+خانه‌ی <span>مانهوا</span> فارسی
+
 </h1>
 
+
 <p>
-ترجمه حرفه‌ای مانهواهای محبوب به زبان فارسی ✨
+
+مانیـسو، دنیای مانهواهای فارسی با کیفیت بالا ✨
+
 </p>
 
 
 </section>
+
 
 
 
@@ -415,6 +494,8 @@ color:#777;
 <input placeholder="🔍 جستجوی مانهوا...">
 
 </div>
+
+
 
 
 
@@ -428,8 +509,6 @@ color:#777;
 
 <button>سیستم</button>
 
-<button>انتقام</button>
-
 </div>
 
 
@@ -438,7 +517,7 @@ color:#777;
 
 <div class="title">
 
-آخرین بروزرسانی‌ها
+🔥 آخرین بروزرسانی‌ها
 
 </div>
 
@@ -448,7 +527,6 @@ color:#777;
 <div class="container">
 
 
-
 <div class="card">
 
 
@@ -466,49 +544,14 @@ color:#777;
 <div class="info">
 
 <h2>
-درحال ساخت...
+در حال ساخت...
 </h2>
 
-<div class="status">
-وضعیت: ترجمه شروع نشده
-</div>
-
-<div class="chapter">
-آخرین چپتر: به زودی
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<div class="cover">
-
-<div class="badge">
-به زودی
-</div>
-
-مانهوا
-
-</div>
-
-
-<div class="info">
-
-<h2>
-درحال ساخت...
-</h2>
 
 <div class="status">
-وضعیت: در حال آماده سازی
+وضعیت: آماده سازی
 </div>
+
 
 <div class="chapter">
 آخرین چپتر: به زودی
@@ -519,7 +562,6 @@ color:#777;
 
 
 </div>
-
 
 
 
@@ -542,12 +584,14 @@ color:#777;
 <div class="info">
 
 <h2>
-درحال ساخت...
+در حال ساخت...
 </h2>
 
+
 <div class="status">
-منتظر باشید ✨
+وضعیت: بررسی
 </div>
+
 
 <div class="chapter">
 آخرین چپتر: به زودی
@@ -562,19 +606,37 @@ color:#777;
 
 
 </div>
+
 
 
 
 
 <footer>
 
-Maniso © 2026  
+© 2026 Maniso
+
 <br>
-دنیای مانهوا فارسی
+
+دنیای مانهوا فارسی ❤️‍🔥
 
 </footer>
 
 
 
+
+<script>
+
+function openMenu(){
+
+document.getElementById("menu")
+.classList.toggle("active");
+
+}
+
+</script>
+
+
+
 </body>
+
 </html>
