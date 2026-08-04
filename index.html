@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مانیسو | مرجع تخصصی مانگا و منهوا</title>
+<title>مانیسو | MANISO - دنیای فانتزی مانگا</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ff5b2e'/><path d='M55 15 30 55h16l-4 30 28-42H52z' fill='%23fff'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="noise"></div>
 <div id="scrollProg"></div>
 
-<!-- ===== آیکون‌های SVG ===== -->
+<!-- ===== آیکون‌های متحرک SVG ===== -->
 <svg style="display:none">
   <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
   <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></symbol>
@@ -57,9 +57,9 @@
   <div class="container">
     <span><svg style="width:13px;height:13px;fill:currentColor;vertical-align:-2px;margin-left:5px"><use href="#i-calendar"/></svg>امروز: <b id="faDate"></b></span>
     <div class="tb-links">
-      <a href="#updates"><svg><use href="#i-bolt"/></svg>به‌روزرسانی خودکار هر ۳۰ دقیقه</a>
+      <a href="#updates"><svg><use href="#i-bolt"/></svg>به‌روزرسانی خودکار</a>
       <a href="#schedule"><svg><use href="#i-calendar"/></svg>برنامه‌ی هفتگی</a>
-      <a href="#news"><svg><use href="#i-news"/></svg>اخبار دنیای مانگا</a>
+      <a href="#news"><svg><use href="#i-news"/></svg>اخبار مانگا</a>
     </div>
   </div>
 </div>
@@ -74,30 +74,30 @@
     <nav class="main-nav">
       <a href="#home" class="on">خانه</a>
       <a href="#updates">به‌روزرسانی‌ها</a>
-      <a href="#top">فهرست برترین‌ها</a>
-      <a href="#schedule">تقویم انتشار</a>
+      <a href="#top">برترین‌ها</a>
+      <a href="#schedule">تقویم</a>
       <a href="#news">اخبار</a>
     </nav>
     <div class="hsearch">
-      <input type="text" id="searchInput" placeholder="جست‌وجوی مانگا، منهوا، ژانر…" autocomplete="off">
+      <input type="text" id="searchInput" placeholder="جست‌وجوی مانگا، ژانر…" autocomplete="off">
       <svg class="sicon"><use href="#i-search"/></svg>
       <div id="searchDrop"></div>
     </div>
     <div class="hicons">
-      <button class="hbtn" id="randomBtn" title="فصل شانسی!"><svg><use href="#i-dice"/></svg></button>
-      <button class="hbtn" id="markBtn" title="نشان‌شده‌ها"><svg><use href="#i-bookmark"/></svg><span class="cnt" id="markCnt">۰</span></button>
-      <button class="hbtn" id="themeBtn" title="تغییر پوسته"><svg id="themeIcon"><use href="#i-moon"/></svg></button>
+      <button class="hbtn magic-btn" id="randomBtn" title="فصل شانسی!"><svg><use href="#i-dice"/></svg></button>
+      <button class="hbtn magic-btn" id="markBtn" title="نشان‌شده‌ها"><svg><use href="#i-bookmark"/></svg><span class="cnt" id="markCnt">۰</span></button>
+      <button class="hbtn magic-btn" id="themeBtn" title="تغییر پوسته"><svg id="themeIcon"><use href="#i-moon"/></svg></button>
       <div id="authArea">
-        <button class="hbtn auth-btn" id="authOpenBtn"><svg><use href="#i-user"/></svg><span>ورود</span></button>
+        <button class="magic-btn auth-btn" id="authOpenBtn"><svg><use href="#i-user"/></svg><span>ورود / ثبت‌نام</span></button>
       </div>
-      <button class="hbtn" id="burger"><svg><use href="#i-menu"/></svg></button>
+      <button class="hbtn magic-btn" id="burger"><svg><use href="#i-menu"/></svg></button>
     </div>
   </div>
   <div class="mob-menu" id="mobMenu">
     <a href="#home"><svg><use href="#i-book"/></svg>خانه</a>
     <a href="#updates"><svg><use href="#i-bolt"/></svg>به‌روزرسانی‌ها</a>
-    <a href="#top"><svg><use href="#i-trophy"/></svg>فهرست برترین‌ها</a>
-    <a href="#schedule"><svg><use href="#i-calendar"/></svg>تقویم انتشار</a>
+    <a href="#top"><svg><use href="#i-trophy"/></svg>برترین‌ها</a>
+    <a href="#schedule"><svg><use href="#i-calendar"/></svg>تقویم</a>
     <a href="#news"><svg><use href="#i-news"/></svg>اخبار</a>
   </div>
 </header>
@@ -121,9 +121,9 @@
       <div class="sp-meta" id="spMeta"></div>
       <p class="sp-desc" id="spDesc"></p>
       <div class="sp-actions">
-        <button class="btn btn-accent" id="spRead"><svg><use href="#i-play"/></svg>مطالعه‌ی آخرین فصل</button>
-        <button class="btn btn-ghost" id="spDetail">جزئیات اثر</button>
-        <button class="btn btn-ghost btn-sq" id="spMark"><svg><use href="#i-bookmark"/></svg></button>
+        <button class="magic-btn btn-accent" id="spRead"><svg><use href="#i-play"/></svg>مطالعه‌ی آخرین فصل</button>
+        <button class="magic-btn btn-ghost" id="spDetail">جزئیات اثر</button>
+        <button class="magic-btn btn-ghost btn-sq" id="spMark"><svg><use href="#i-bookmark"/></svg></button>
       </div>
     </div>
     <div class="sp-cover">
@@ -134,8 +134,8 @@
   <div class="sp-nav">
     <div class="container">
       <div class="sp-arrows">
-        <button class="sp-arr" id="spPrev" title="قبلی"><svg><use href="#i-chevron-right"/></svg></button>
-        <button class="sp-arr" id="spNext" title="بعدی"><svg><use href="#i-chevron-left"/></svg></button>
+        <button class="magic-btn sp-arr" id="spPrev" title="قبلی"><svg><use href="#i-chevron-right"/></svg></button>
+        <button class="magic-btn sp-arr" id="spNext" title="بعدی"><svg><use href="#i-chevron-left"/></svg></button>
       </div>
       <span class="sp-count"><b id="spCur">۰۱</b> / <span id="spTot">۰۴</span></span>
       <div class="sp-prog"><i id="spProgBar"></i></div>
@@ -151,14 +151,14 @@
         <div class="sec-kicker"><svg><use href="#i-bolt"/></svg>تازه‌ترین‌ها</div>
         <h2 class="sec-title lm"><span>دیوار به‌روزرسانی‌ها</span></h2>
       </div>
-      <a class="sec-link" href="#top">مشاهده‌ی آرشیو کامل <svg><use href="#i-chevron-left"/></svg></a>
+      <a class="sec-link" href="#top">آرشیو کامل <svg><use href="#i-chevron-left"/></svg></a>
     </div>
     <div class="filters">
       <div class="ftabs" id="typeTabs">
-        <button class="ftab on" data-type="all">همه</button>
-        <button class="ftab" data-type="منهوا"><svg><use href="#i-book"/></svg>منهوا</button>
-        <button class="ftab" data-type="مانگا"><svg><use href="#i-book"/></svg>مانگا</button>
-        <button class="ftab" data-type="مانهوا"><svg><use href="#i-book"/></svg>مانهوا</button>
+        <button class="magic-btn ftab on" data-type="all">همه</button>
+        <button class="magic-btn ftab" data-type="منهوا"><svg><use href="#i-book"/></svg>منهوا</button>
+        <button class="magic-btn ftab" data-type="مانگا"><svg><use href="#i-book"/></svg>مانگا</button>
+        <button class="magic-btn ftab" data-type="مانهوا"><svg><use href="#i-book"/></svg>مانهوا</button>
       </div>
       <div class="gchips" id="genreChips"></div>
     </div>
@@ -172,8 +172,8 @@
     <aside class="rank-aside">
       <div class="sec-kicker"><svg><use href="#i-trophy"/></svg>تالار افتخار</div>
       <h2 class="sec-title lm"><span>فهرست طلایی<br>مانیسو</span></h2>
-      <p>رتبه‌بندی ده اثر برتر بر اساس امتیاز خوانندگان، تعداد مطالعه و محبوبیت جامعه‌ی فارسی‌زبان — بدون هیچ جانبداری!</p>
-      <div class="rank-note"><svg><use href="#i-clock"/></svg><div>رتبه‌بندی <b>هر روز ساعت ۲۰:۰۰</b> به‌روزرسانی می‌شود.<br>مبنای محاسبه: ۸۰٪ آرای کاربران + ۲۰٪ بازدید.</div></div>
+      <p>رتبه‌بندی ده اثر برتر بر اساس امتیاز خوانندگان و محبوبیت جامعه‌ی فارسی‌زبان.</p>
+      <div class="rank-note"><svg><use href="#i-clock"/></svg><div>رتبه‌بندی <b>هر روز ساعت ۲۰:۰۰</b> به‌روزرسانی می‌شود.</div></div>
     </aside>
     <ol class="rank-list" id="rankList"></ol>
   </div>
@@ -198,9 +198,8 @@
     <div class="sec-head">
       <div>
         <div class="sec-kicker"><svg><use href="#i-calendar"/></svg>برنامه‌ی هفتگی</div>
-        <h2 class="sec-title lm"><span>تقویم انتشار فصل‌ها</span></h2>
+        <h2 class="sec-title lm"><span>تقویم انتشار</span></h2>
       </div>
-      <a class="sec-link" href="#updates">همه‌ی آثار <svg><use href="#i-chevron-left"/></svg></a>
     </div>
     <div class="day-tabs" id="dayTabs"></div>
     <div class="sched-list" id="schedList"></div>
@@ -210,10 +209,10 @@
 <!-- آمار -->
 <div class="stats">
   <div class="container">
-    <div class="stat"><div class="n" data-n="12480">۰</div><div class="l"><svg><use href="#i-book"/></svg>اثر در کتاب‌خانه</div></div>
-    <div class="stat"><div class="n" data-n="348920">۰</div><div class="l"><svg><use href="#i-library"/></svg>فصل ترجمه‌شده</div></div>
-    <div class="stat"><div class="n" data-n="862400">۰</div><div class="l"><svg><use href="#i-user"/></svg>کاربر ثبت‌نامی</div></div>
-    <div class="stat"><div class="n" data-n="4100000">۰</div><div class="l"><svg><use href="#i-eye"/></svg>بازدید روزانه</div></div>
+    <div class="stat"><div class="n" data-n="12480">۰</div><div class="l"><svg><use href="#i-book"/></svg>اثر</div></div>
+    <div class="stat"><div class="n" data-n="348920">۰</div><div class="l"><svg><use href="#i-library"/></svg>فصل</div></div>
+    <div class="stat"><div class="n" data-n="862400">۰</div><div class="l"><svg><use href="#i-user"/></svg>کاربر</div></div>
+    <div class="stat"><div class="n" data-n="4100000">۰</div><div class="l"><svg><use href="#i-eye"/></svg>بازدید</div></div>
   </div>
 </div>
 
@@ -223,9 +222,8 @@
     <div class="sec-head">
       <div>
         <div class="sec-kicker"><svg><use href="#i-news"/></svg>مانیسو‌نیوز</div>
-        <h2 class="sec-title lm"><span>اخبار دنیای مانگا و انیمه</span></h2>
+        <h2 class="sec-title lm"><span>اخبار دنیای مانگا</span></h2>
       </div>
-      <a class="sec-link" href="#">آرشیو اخبار <svg><use href="#i-chevron-left"/></svg></a>
     </div>
     <div class="news-grid" id="newsGrid"></div>
   </div>
@@ -237,11 +235,11 @@
     <div class="newsband reveal">
       <div>
         <h3><svg><use href="#i-bell"/></svg>از هیچ فصلی جا نمان!</h3>
-        <p>با عضویت در خبرنامه‌ی مانیسو، انتشار فصل‌های موردعلاقه‌ات را همان لحظه‌ی اول باخبر شو — بدون اسپم، فقط مانگا.</p>
+        <p>با عضویت در خبرنامه‌ی مانیسو، انتشار فصل‌های موردعلاقه‌ات را همان لحظه‌ی اول باخبر شو.</p>
       </div>
       <form class="nform" id="newsForm">
         <input type="email" placeholder="ایمیل خود را وارد کنید…" required>
-        <button class="btn btn-accent" type="submit">عضویت</button>
+        <button class="magic-btn btn-accent" type="submit">عضویت</button>
       </form>
     </div>
   </div>
@@ -256,7 +254,7 @@
           <span class="logo-mark"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:#fff"><path d="M13.5 2 5 13.5h5.2L9 22l9.5-12h-5.6L13.5 2z"/></svg></span>
           <span class="logo-txt"><span class="fd">مانی<em style="color:var(--accent);font-style:normal">سو</em></span><small>MANISO</small></span>
         </a>
-        <p>مانیسو خانه‌ی فارسی‌زبان عاشقان مانگا، منهوا و مانهواست؛ با آرشیوی بزرگ، ترجمه‌ی روان و به‌روزرسانی لحظه‌ای. همه‌چیز برای خواندنِ بی‌وقفه.</p>
+        <p>مانیسو خانه‌ی فارسی‌زبان عاشقان مانگا، منهوا و مانهواست.</p>
         <div class="socials">
           <a href="#" title="تلگرام"><svg><use href="#i-telegram"/></svg></a>
           <a href="#" title="اینستاگرام"><svg><use href="#i-instagram"/></svg></a>
@@ -266,32 +264,28 @@
       </div>
       <div class="f-col">
         <h4>دسترسی سریع</h4>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>آخرین به‌روزرسانی‌ها</a>
-        <a href="#top"><svg><use href="#i-chevron-left"/></svg>فهرست برترین‌ها</a>
-        <a href="#schedule"><svg><use href="#i-chevron-left"/></svg>تقویم انتشار</a>
-        <a href="#news"><svg><use href="#i-chevron-left"/></svg>اخبار مانگا</a>
-        <a href="#"><svg><use href="#i-chevron-left"/></svg>راهنمای سایت</a>
+        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>به‌روزرسانی‌ها</a>
+        <a href="#top"><svg><use href="#i-chevron-left"/></svg>برترین‌ها</a>
+        <a href="#schedule"><svg><use href="#i-chevron-left"/></svg>تقویم</a>
+        <a href="#news"><svg><use href="#i-chevron-left"/></svg>اخبار</a>
       </div>
       <div class="f-col">
         <h4>ژانرهای داغ</h4>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>سیستمی و بازی</a>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>بازگشتی و تناسخ</a>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>رزمی و موریم</a>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>عاشقانه‌ی اشرافی</a>
-        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>ترسناک و بقا</a>
+        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>سیستمی</a>
+        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>بازگشتی</a>
+        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>رزمی</a>
+        <a href="#updates"><svg><use href="#i-chevron-left"/></svg>عاشقانه</a>
       </div>
       <div class="f-col">
-        <h4>قوانین و پشتیبانی</h4>
-        <a href="#"><svg><use href="#i-chevron-left"/></svg>قوانین انجمن</a>
+        <h4>پشتیبانی</h4>
+        <a href="#"><svg><use href="#i-chevron-left"/></svg>قوانین</a>
         <a href="#"><svg><use href="#i-chevron-left"/></svg>درخواست مانگا</a>
-        <a href="#"><svg><use href="#i-chevron-left"/></svg>گزارش خرابی فصل</a>
-        <a href="#"><svg><use href="#i-chevron-left"/></svg>همکاری به‌عنوان مترجم</a>
         <a href="#"><svg><use href="#i-chevron-left"/></svg>تماس با ما</a>
       </div>
     </div>
     <div class="f-bottom">
-      <span>© ۱۴۰۵ <b>مانیسو</b> — تمامی حقوق محفوظ است.</span>
-      <span style="display:flex;align-items:center;gap:5px">ساخته‌شده با <svg style="width:13px;height:13px;fill:var(--accent)"><use href="#i-heart"/></svg> برای جامعه‌ی مانگافارس</span>
+      <span>© ۱۴۰۵ <b>مانیسو</b></span>
+      <span style="display:flex;align-items:center;gap:5px">ساخته‌شده با <svg style="width:13px;height:13px;fill:var(--accent)"><use href="#i-heart"/></svg> برای مانگافارس</span>
     </div>
   </div>
 </footer>
@@ -299,7 +293,7 @@
 <!-- مودال جزئیات -->
 <div class="modal" id="detailModal">
   <div class="modal-card">
-    <button class="m-close" data-close><svg><use href="#i-close"/></svg></button>
+    <button class="magic-btn m-close" data-close><svg><use href="#i-close"/></svg></button>
     <div class="dm-grid">
       <div class="dm-cover"><img id="dmCover" src="" alt=""></div>
       <div>
@@ -309,9 +303,9 @@
         <div class="dm-stats" id="dmStats"></div>
         <p class="dm-desc" id="dmDesc"></p>
         <div class="dm-actions">
-          <button class="btn btn-accent" id="dmRead"><svg><use href="#i-play"/></svg>شروع از فصل اول</button>
-          <button class="btn btn-ghost" id="dmLatest">آخرین فصل</button>
-          <button class="btn btn-ghost" id="dmMark"><svg><use href="#i-bookmark"/></svg>نشان کردن</button>
+          <button class="magic-btn btn-accent" id="dmRead"><svg><use href="#i-play"/></svg>شروع</button>
+          <button class="magic-btn btn-ghost" id="dmLatest">آخرین فصل</button>
+          <button class="magic-btn btn-ghost" id="dmMark"><svg><use href="#i-bookmark"/></svg>نشان کردن</button>
         </div>
       </div>
     </div>
@@ -325,14 +319,14 @@
 <!-- مودال ورود/ثبت‌نام -->
 <div class="modal auth-modal" id="authModal">
   <div class="modal-card">
-    <button class="m-close" data-close><svg><use href="#i-close"/></svg></button>
+    <button class="magic-btn m-close" data-close><svg><use href="#i-close"/></svg></button>
     <div style="text-align:center;margin-bottom:24px">
       <h2 class="fd" style="font-size:28px">خوش آمدید!</h2>
       <p style="color:var(--muted);font-size:13px;margin-top:6px">برای دسترسی به امکانات کامل مانیسو وارد شوید</p>
     </div>
     <div class="auth-tabs">
-      <button class="auth-tab on" data-auth="login">ورود</button>
-      <button class="auth-tab" data-auth="register">ثبت‌نام</button>
+      <button class="magic-btn auth-tab on" data-auth="login">ورود</button>
+      <button class="magic-btn auth-tab" data-auth="register">ثبت‌نام</button>
     </div>
     <form class="auth-form" id="loginForm">
       <div class="form-group">
@@ -341,10 +335,10 @@
       </div>
       <div class="form-group">
         <label>رمز عبور</label>
-        <input type="password" id="loginPass" required placeholder="رمز عبور خود را وارد کنید">
+        <input type="password" id="loginPass" required placeholder="رمز عبور">
       </div>
       <div class="form-error" id="loginError"><svg><use href="#i-error"/></svg><span></span></div>
-      <button class="btn btn-accent auth-submit" type="submit"><svg><use href="#i-user"/></svg>ورود به حساب</button>
+      <button class="magic-btn btn-accent auth-submit" type="submit"><svg><use href="#i-user"/></svg>ورود</button>
     </form>
     <form class="auth-form" id="registerForm" style="display:none">
       <div class="form-group">
@@ -360,7 +354,7 @@
         <input type="password" id="regPass" required placeholder="حداقل ۶ کاراکتر">
       </div>
       <div class="form-error" id="regError"><svg><use href="#i-error"/></svg><span></span></div>
-      <button class="btn btn-accent auth-submit" type="submit"><svg><use href="#i-check"/></svg>ایجاد حساب کاربری</button>
+      <button class="magic-btn btn-accent auth-submit" type="submit"><svg><use href="#i-check"/></svg>ثبت‌نام</button>
     </form>
   </div>
 </div>
@@ -368,19 +362,19 @@
 <!-- کتاب‌خوان -->
 <div class="reader" id="reader">
   <div class="r-top">
-    <button class="r-back" id="rClose"><svg><use href="#i-close"/></svg></button>
+    <button class="magic-btn r-back" id="rClose"><svg><use href="#i-close"/></svg></button>
     <div class="r-info"><div class="t" id="rTitle"></div><div class="c" id="rCh"></div></div>
     <div class="r-tools">
-      <button class="r-tool on" id="rWidth"><svg><use href="#i-width"/></svg>عرض استاندارد</button>
-      <button class="r-tool" id="rTopGo"><svg><use href="#i-top"/></svg>ابتدای فصل</button>
+      <button class="magic-btn r-tool on" id="rWidth"><svg><use href="#i-width"/></svg>عرض استاندارد</button>
+      <button class="magic-btn r-tool" id="rTopGo"><svg><use href="#i-top"/></svg>ابتدا</button>
     </div>
   </div>
   <div class="r-progwrap"><i id="rProg"></i></div>
   <div class="r-body" id="rBody"><div class="r-pages" id="rPages"></div></div>
   <div class="r-bottom">
-    <button class="r-nav" id="rPrev"><svg><use href="#i-chevron-right"/></svg>فصل قبل</button>
+    <button class="magic-btn r-nav" id="rPrev"><svg><use href="#i-chevron-right"/></svg>قبل</button>
     <span class="r-chlabel" id="rLabel"></span>
-    <button class="r-nav" id="rNext">فصل بعد<svg><use href="#i-chevron-left"/></svg></button>
+    <button class="magic-btn r-nav" id="rNext">بعد<svg><use href="#i-chevron-left"/></svg></button>
   </div>
 </div>
 
@@ -389,4 +383,4 @@
 
 <script src="script.js"></script>
 </body>
-  </html>
+      </html>
