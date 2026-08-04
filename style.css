@@ -34,13 +34,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 ::-webkit-scrollbar-track{background:var(--bg2)}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:99px}
 .container{max-width:1280px;margin:0 auto;padding:0 24px}
-.fd{font-family:var(--fd);font-weight:400;letter-spacing:.3px}
+.fd{font-family:var(--fd);font-weight:400;letter-spacing
 
-/* ===== MAGIC BUTTON SYSTEM ===== */
+    /* ===== MAGIC BUTTON SYSTEM ===== */
 .magic-btn{position:relative;overflow:hidden;transition:all .3s var(--ease);isolation:isolate}
-.magic-btn::before{content:'';position:absolute;inset:-2px;background:linear-gradient(45deg,var(--accent),var(--accent2),var(--teal),var(--accent));background-size:300% 300%;opacity:0;z-index:-1;transition:opacity .3s;animation:borderRotate 4s linear infinite;border-radius:inherit}
+.magic-btn::before{content:'';position:absolute;inset:-2px;background:linear-gradient(45deg,var(--accent),var(--accent2),var(--teal),var(--accent));background-size:300% 300%;opacity:0;z-index:-1;transition:opacity .3s;animation:borderRotate 4s linear infinite;border-radius:inherit;pointer-events:none}
 .magic-btn:hover::before{opacity:1}
-.magic-btn::after{content:'';position:absolute;inset:1px;background:var(--card);border-radius:inherit;z-index:-1;transition:background .3s}
+.magic-btn::after{content:'';position:absolute;inset:1px;background:var(--card);border-radius:inherit;z-index:-1;transition:background .3s;pointer-events:none}
 .magic-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px var(--accent-glow);color:var(--accent)}
 .magic-btn:active{transform:translateY(0) scale(.97)}
 @keyframes borderRotate{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
