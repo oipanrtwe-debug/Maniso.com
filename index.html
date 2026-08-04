@@ -3,404 +3,767 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WW3: GLOBAL CONFLICT SIMULATOR</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Vazirmatn:wght@300;500;800&display=swap" rel="stylesheet">
+    <title>WW3: COMMAND CENTER</title>
     
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Vazirmatn:wght@300;500;700;900&display=swap" rel="stylesheet">
+
     <style>
-        /* --- CORE VARIABLES & RESET --- */
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
         :root {
-            --c-bg: #050505;
-            --c-panel: rgba(16, 20, 24, 0.85);
-            --c-accent: #ff9d00; /* Tactical Orange */
-            --c-alert: #ff2a2a;
-            --c-text: #e8e8e8;
-            --c-grid: rgba(255, 255, 255, 0.03);
-            --font-ui: 'Rajdhani', sans-serif;
-            --font-fa: 'Vazirmatn', sans-serif;
-            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --c-bg: #030303;
+            --c-surface: rgba(15, 18, 22, 0.9);
+            --c-primary: #ff9d00;   /* Tactical Amber */
+            --c-danger: #ff2a2a;
+            --c-success: #00ff88;
+            --c-text-main: #ffffff;
+            --c-text-muted: #6e7681;
+            --c-border: rgba(255, 255, 255, 0.08);
+            
+            --font-display: 'Rajdhani', sans-serif;
+            --font-body: 'Vazirmatn', sans-serif;
+            
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+            
+            --glow-primary: 0 0 20px rgba(255, 157, 0, 0.4);
+            --glow-danger: 0 0 20px rgba(255, 42, 42, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
         body {
             background: var(--c-bg);
-            color: var(--c-text);
-            font-family: var(--font-fa);
-            height: 100vh;
+            color: var(--c-text-main);
+            font-family: var(--font-body);
+            height: 100vh; width: 100vw;
             overflow: hidden;
-            perspective: 1200px;
+            perspective: 1500px;
         }
 
-        /* Background Grid Animation */
-        .bg-grid {
-            position: fixed; inset: 0; z-index: -1;
-            background-image: 
-                linear-gradient(var(--c-grid) 1px, transparent 1px),
-                linear-gradient(90deg, var(--c-grid) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-            animation: gridMove 20s linear infinite;
+        /* =========================================
+           2. BACKGROUND FX ENGINE
+           ========================================= */
+        #bg-canvas {
+            position: fixed; inset: 0; z-index: 0;
+            opacity: 0.4; pointer-events: none;
         }
 
-        /* --- LOADING SCREEN --- */
-        #loader {
+        .scanline {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            opacity: 0.3;
+        }
+
+        .vignette {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle at center, transparent 40%, #000 100%);
+        }
+
+        /* =========================================
+           3. LOADING SEQUENCE
+           ========================================= */
+        #boot-sequence {
             position: fixed; inset: 0; z-index: 9999;
             background: #000;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            transition: opacity 0.8s var(--ease-out);
+            transition: opacity 1s var(--ease-smooth);
         }
 
-        .loader-logo {
-            font-family: var(--font-ui);
-            font-size: 3rem; font-weight: 700;
-            letter-spacing: 8px; text-transform: uppercase;
-            color: var(--c-accent);
-            text-shadow: 0 0 20px rgba(255, 157, 0, 0.5);
-            margin-bottom: 40px;
+        .boot-logo {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700; letter-spacing: 10px;
+            color: var(--c-primary);
+            text-shadow: var(--glow-primary);
+            margin-bottom: 50px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
-        .progress-track {
-            width: 300px; height: 4px;
-            background: #222; border-radius: 2px;
-            overflow: hidden; position: relative;
+        .boot-progress {
+            width: min(400px, 80vw); height: 2px;
+            background: #222; position: relative;
+        }
+        .boot-bar {
+            height: 100%; width: 0%; background: var(--c-primary);
+            box-shadow: var(--glow-primary);
+            transition: width 0.2s linear;
+        }
+        .boot-log {
+            margin-top: 20px; font-family: var(--font-display);
+            font-size: 0.8rem; color: var(--c-text-muted);
+            letter-spacing: 3px; min-height: 1.5em;
         }
 
-        .progress-bar {
-            height: 100%; width: 0%;
-            background: var(--c-accent);
-            box-shadow: 0 0 10px var(--c-accent);
-            transition: width 0.3s ease;
-        }
-
-        .sys-log {
-            margin-top: 20px;
-            font-family: var(--font-ui);
-            font-size: 0.8rem; color: #666;
-            letter-spacing: 2px; min-height: 1.2em;
-        }
-
-        /* --- MAIN MENU --- */
-        #main-menu {
-            display: none; opacity: 0;
+        /* =========================================
+           4. MAIN MENU SYSTEM
+           ========================================= */
+        #command-center {
+            position: relative; z-index: 10;
             height: 100%; width: 100%;
-            flex-direction: column;
-            align-items: center; justify-content: center;
-            transition: opacity 1s var(--ease-out);
+            display: none; opacity: 0;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto 1fr auto;
+            padding: clamp(20px, 4vw, 60px);
+            transition: opacity 1.2s var(--ease-smooth);
         }
 
-        .menu-title {
-            font-family: var(--font-ui);
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 700; text-transform: uppercase;
-            line-height: 1; margin-bottom: 60px;
-            background: linear-gradient(to bottom, #fff, #888);
+        /* Header */
+        .header-stats {
+            grid-column: 1 / -1;
+            display: flex; gap: 30px;
+            font-family: var(--font-display);
+            font-size: 0.9rem; color: var(--c-text-muted);
+            letter-spacing: 2px; border-bottom: 1px solid var(--c-border);
+            padding-bottom: 20px; margin-bottom: 20px;
+        }
+        .stat-item span { color: var(--c-primary); margin-right: 8px; }
+
+        /* Center Content */
+        .menu-core {
+            grid-column: 1; grid-row: 2;
+            display: flex; flex-direction: column;
+            justify-content: center; max-width: 500px;
+        }
+
+        .title-block h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 0.9; font-weight: 700;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #fff 0%, #888 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
+        }
+        .title-block .subtitle {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            color: var(--c-primary); letter-spacing: 8px;
+            margin-top: 15px; display: block;
         }
 
-        .menu-subtitle {
-            font-size: 1rem; color: var(--c-accent);
-            letter-spacing: 6px; margin-top: 10px;
-            text-align: center; display: block;
+        /* TACTICAL BUTTONS */
+        .nav-stack {
+            margin-top: 60px; display: flex;
+            flex-direction: column; gap: 15px;
         }
 
-        /* PROFESSIONAL 3D BUTTONS */
-        .btn-container { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }
-
-        .tactical-btn {
+        .tac-btn {
             position: relative;
-            padding: 22px 30px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff;
-            font-family: var(--font-ui); font-size: 1.3rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            transition: all 0.2s var(--ease-out);
-            transform-style: preserve-3d;
-            display: flex; align-items: center; gap: 15px;
+            padding: 20px 35px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--c-border);
+            color: #fff; font-family: var(--font-display);
+            font-size: 1.4rem; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; overflow: hidden;
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            transition: all 0.3s var(--ease-smooth);
+            display: flex; align-items: center; gap: 20px;
         }
 
-        .tactical-btn::before {
-            content: ''; position: absolute; inset: 0;
-            background: var(--c-accent); opacity: 0;
-            transition: opacity 0.3s; z-index: -1;
+        .tac-btn::before {
+            content: ''; position: absolute; left: 0; top: 0;
+            width: 4px; height: 100%; background: var(--c-primary);
+            opacity: 0; transition: opacity 0.3s;
         }
 
-        .tactical-btn:hover {
-            transform: translateY(-3px) translateZ(10px);
-            border-color: var(--c-accent);
-            box-shadow: 0 10px 30px rgba(255, 157, 0, 0.2);
+        .tac-btn:hover {
+            background: rgba(255, 157, 0, 0.08);
+            border-color: var(--c-primary);
+            transform: translateX(10px);
+            box-shadow: var(--glow-primary);
         }
-        .tactical-btn:hover::before { opacity: 0.1; }
-        .tactical-btn:active { transform: translateY(2px) scale(0.98); }
+        .tac-btn:hover::before { opacity: 1; }
+        .tac-btn:active { transform: translateX(10px) scale(0.98); }
 
-        .btn-icon { 
-            width: 24px; height: 24px; 
-            fill: currentColor; opacity: 0.8;
+        .btn-icon { width: 28px; height: 28px; fill: currentColor; opacity: 0.7; }
+
+        /* FLAG SELECTOR (Bottom Left) */
+        .flag-dock {
+            grid-column: 1; grid-row: 3;
+            display: flex; align-items: flex-end; gap: 20px;
+            padding-top: 40px;
         }
 
-        /* --- REGISTRATION MODAL --- */
-        #reg-modal {
+        .selected-flag {
+            width: 80px; height: 50px;
+            background: #222; border: 1px solid var(--c-border);
+            position: relative; cursor: pointer;
+            overflow: hidden; transition: 0.3s;
+            clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+        }
+        .selected-flag img { width: 100%; height: 100%; object-fit: cover; }
+        .selected-flag:hover { border-color: var(--c-primary); box-shadow: var(--glow-primary); }
+        
+        .flag-label {
+            font-family: var(--font-display);
+            font-size: 0.8rem; color: var(--c-text-muted);
+            letter-spacing: 2px;
+        }
+        .flag-name { color: #fff; font-size: 1.1rem; margin-top: 5px; }
+
+        /* =========================================
+           5. AUTH & MODAL SYSTEM
+           ========================================= */
+        .modal-overlay {
             position: fixed; inset: 0; z-index: 2000;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
             display: none; align-items: center; justify-content: center;
             opacity: 0; transition: opacity 0.4s;
         }
 
-        .reg-card {
-            width: 90%; max-width: 400px;
-            background: var(--c-panel);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 40px; position: relative;
-            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
-            transform: translateY(30px); transition: transform 0.5s var(--ease-out);
+        .auth-panel {
+            width: min(450px, 90vw);
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            padding: 50px; position: relative;
+            clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+            transform: translateY(40px) scale(0.95);
+            transition: all 0.5s var(--ease-elastic);
         }
 
-        .reg-card h2 {
-            font-family: var(--font-ui); color: var(--c-accent);
-            margin-bottom: 30px; font-size: 1.8rem;
+        .auth-tabs {
+            display: flex; gap: 30px; margin-bottom: 40px;
+            border-bottom: 1px solid var(--c-border);
         }
-
-        .input-group { margin-bottom: 20px; position: relative; }
-        
-        .input-group input {
-            width: 100%; padding: 15px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #333; color: #fff;
-            font-family: var(--font-fa); font-size: 1rem;
+        .auth-tab {
+            padding-bottom: 15px; font-family: var(--font-display);
+            font-size: 1.2rem; letter-spacing: 2px;
+            color: var(--c-text-muted); cursor: pointer;
+            border-bottom: 2px solid transparent;
             transition: 0.3s;
         }
-        .input-group input:focus { border-color: var(--c-accent); box-shadow: 0 0 10px rgba(255,157,0,0.2); }
-        .input-group label {
-            position: absolute; right: 15px; top: 15px;
-            color: #666; pointer-events: none; transition: 0.3s;
-            font-size: 0.9rem;
+        .auth-tab.active { color: var(--c-primary); border-color: var(--c-primary); }
+
+        .form-group { margin-bottom: 25px; position: relative; }
+        .form-input {
+            width: 100%; padding: 18px 15px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #333; color: #fff;
+            font-family: var(--font-body); font-size: 1rem;
+            transition: 0.3s;
         }
-        .input-group input:focus ~ label,
-        .input-group input:not(:placeholder-shown) ~ label {
+        .form-input:focus { border-color: var(--c-primary); box-shadow: 0 0 15px rgba(255,157,0,0.15); }
+        
+        .form-label {
+            position: absolute; right: 15px; top: 18px;
+            color: var(--c-text-muted); pointer-events: none;
+            transition: 0.3s var(--ease-smooth);
+        }
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
             top: -10px; right: 10px; font-size: 0.7rem;
-            color: var(--c-accent); background: #111; padding: 0 5px;
+            color: var(--c-primary); background: var(--c-surface);
+            padding: 0 8px; letter-spacing: 1px;
         }
 
-        .close-reg {
-            position: absolute; top: 15px; left: 15px;
-            background: none; border: none; color: #666;
-            font-size: 1.5rem; cursor: pointer;
+        /* FLAG GRID IN MODAL */
+        .flag-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px; max-height: 200px; overflow-y: auto;
+            margin-top: 10px; padding: 5px;
+        }
+        .flag-option {
+            aspect-ratio: 3/2; background: #222;
+            border: 1px solid #333; cursor: pointer;
+            transition: 0.2s; position: relative;
+        }
+        .flag-option img { width: 100%; height: 100%; object-fit: cover; }
+        .flag-option.selected { border-color: var(--c-primary); box-shadow: var(--glow-primary); }
+        .flag-option.selected::after {
+            content: '✓'; position: absolute; inset: 0;
+            background: rgba(255,157,0,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #fff;
         }
 
-        /* --- 3D ERROR ALERT --- */
-        #error-overlay {
+        /* =========================================
+           6. 3D ERROR SYSTEM
+           ========================================= */
+        #alert-system {
             position: fixed; inset: 0; z-index: 3000;
-            background: rgba(20, 0, 0, 0.8);
             display: none; align-items: center; justify-content: center;
-            perspective: 800px;
+            background: rgba(30, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .alert-card {
+            background: linear-gradient(135deg, #2a0505, #1a0000);
+            border: 2px solid var(--c-danger);
+            padding: 50px; text-align: center;
+            max-width: 400px;
+            box-shadow: var(--glow-danger), inset 0 0 40px rgba(255,0,0,0.1);
+            transform: perspective(800px) rotateX(10deg) scale(0.9);
+            opacity: 0; transition: all 0.4s var(--ease-elastic);
+        }
+        .alert-icon { font-size: 4rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px var(--c-danger)); }
+        .alert-title { font-family: var(--font-display); font-size: 2rem; color: #fff; margin-bottom: 10px; }
+        .alert-msg { color: var(--c-danger); letter-spacing: 1px; }
+
+        @keyframes shake3D {
+            0%, 100% { transform: perspective(800px) rotateX(0deg) translateX(0); }
+            20% { transform: perspective(800px) rotateX(5deg) translateX(-15px); }
+            40% { transform: perspective(800px) rotateX(-5deg) translateX(15px); }
+            60% { transform: perspective(800px) rotateX(3deg) translateX(-8px); }
+            80% { transform: perspective(800px) rotateX(-3deg) translateX(8px); }
         }
 
-        .error-card {
-            background: linear-gradient(135deg, #2a0000, #1a0000);
-            border: 2px solid var(--c-alert);
-            padding: 40px; text-align: center;
-            max-width: 350px;
-            box-shadow: 0 0 50px rgba(255, 42, 42, 0.3), inset 0 0 30px rgba(255,0,0,0.1);
-            transform: rotateX(10deg) scale(0.9);
-            opacity: 0; transition: all 0.4s var(--ease-out);
+        /* RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            #command-center { grid-template-columns: 1fr; padding: 20px; }
+            .header-stats { font-size: 0.7rem; gap: 15px; }
+            .title-block h1 { font-size: 3rem; }
+            .tac-btn { padding: 18px 25px; font-size: 1.1rem; }
+            .flag-dock { position: fixed; bottom: 20px; left: 20px; padding: 0; }
         }
-
-        .error-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-        .error-msg { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
-        .error-sub { font-size: 0.8rem; color: var(--c-alert); letter-spacing: 1px; }
-
-        @keyframes gridMove { to { background-position: 40px 40px; } }
-        @keyframes shake { 
-            0%, 100% { transform: rotateX(10deg) translateX(0); } 
-            20% { transform: rotateX(10deg) translateX(-10px); } 
-            40% { transform: rotateX(10deg) translateX(10px); } 
-            60% { transform: rotateX(10deg) translateX(-5px); } 
-            80% { transform: rotateX(10deg) translateX(5px); } 
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="bg-grid"></div>
+    <!-- BG EFFECTS -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="scanline"></div>
+    <div class="vignette"></div>
 
-    <!-- CINEMATIC LOADER -->
-    <div id="loader">
-        <div class="loader-logo">WW3 SIM</div>
-        <div class="progress-track"><div class="progress-bar" id="p-bar"></div></div>
-        <div class="sys-log" id="sys-log">INITIALIZING KERNEL...</div>
+    <!-- BOOT SEQUENCE -->
+    <div id="boot-sequence">
+        <div class="boot-logo">WW3 SIM</div>
+        <div class="boot-progress"><div class="boot-bar" id="boot-bar"></div></div>
+        <div class="boot-log" id="boot-log">INITIALIZING KERNEL...</div>
     </div>
 
-    <!-- MAIN MENU -->
-    <div id="main-menu">
-        <h1 class="menu-title">
-            WORLD WAR III
-            <span class="menu-subtitle">GLOBAL CONFLICT SIMULATOR</span>
-        </h1>
-
-        <div class="btn-container">
-            <button class="tactical-btn" onclick="gameAction('start')">
-                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l6 13H6l6-13z"/></svg>
-                شروع عملیات
-            </button>
-            <button class="tactical-btn" onclick="gameAction('campaign')">
-                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                کمپین جهانی
-            </button>
-            <button class="tactical-btn" id="btn-auth" onclick="openAuth()">
-                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                ثبت فرماندهی
-            </button>
+    <!-- MAIN INTERFACE -->
+    <div id="command-center">
+        <div class="header-stats">
+            <div class="stat-item"><span>DEFCON</span> 3</div>
+            <div class="stat-item"><span>SERVER</span> EU-WEST-2</div>
+            <div class="stat-item"><span>PING</span> 24ms</div>
+            <div class="stat-item" id="user-display" style="margin-inline-start:auto; color:#fff;">GUEST MODE</div>
         </div>
-    </div>
 
-    <!-- REGISTRATION FORM -->
-    <div id="reg-modal">
-        <div class="reg-card">
-            <button class="close-reg" onclick="closeAuth()">×</button>
-            <h2>ثبت نام فرمانده</h2>
-            <form onsubmit="handleRegister(event)">
-                <div class="input-group">
-                    <input type="text" id="cmd-name" placeholder=" " required autocomplete="off">
-                    <label>نام عملیاتی (Callsign)</label>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="cmd-pass" placeholder=" " required>
-                    <label>کد دسترسی امنیتی</label>
-                </div>
-                <button type="submit" class="tactical-btn" style="width:100%; justify-content:center; margin-top:10px;">
-                    تایید هویت
+        <div class="menu-core">
+            <div class="title-block">
+                <h1>WORLD WAR III<br>SIMULATOR</h1>
+                <span class="subtitle">TACTICAL COMMAND INTERFACE</span>
+            </div>
+
+            <nav class="nav-stack">
+                <button class="tac-btn" onclick="App.navigate('campaign')">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    کمپین جهانی
                 </button>
-            </form>
+                <button class="tac-btn" onclick="App.navigate('multiplayer')">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    نبرد چند نفره
+                </button>
+                <button class="tac-btn" onclick="App.navigate('intel')">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    اطلاعات و جاسوسی
+                </button>
+                <button class="tac-btn" id="btn-auth-trigger" onclick="App.openAuth()">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    ورود به سیستم فرماندهی
+                </button>
+            </nav>
+        </div>
+
+        <div class="flag-dock">
+            <div class="selected-flag" onclick="App.openFlagSelector()">
+                <img id="current-flag-img" src="https://flagcdn.com/w160/un.png" alt="UN Flag">
+            </div>
+            <div>
+                <div class="flag-label">FACTION SELECTED</div>
+                <div class="flag-name" id="current-flag-name">UNITED NATIONS</div>
+            </div>
         </div>
     </div>
 
-    <!-- 3D ERROR OVERLAY -->
-    <div id="error-overlay" onclick="dismissError()">
-        <div class="error-card" id="err-card">
-            <span class="error-icon">⚠️</span>
-            <div class="error-msg">دسترسی غیرمجاز</div>
-            <div class="error-sub">شما هنوز ثبت نام نکرده‌اید</div>
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-panel">
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="App.switchTab('login')">ورود</div>
+                <div class="auth-tab" onclick="App.switchTab('register')">ثبت نام</div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="form-login" onsubmit="App.handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder=" " required>
+                    <label class="form-label">ایمیل سازمانی</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder=" " required>
+                    <label class="form-label">کد رمز عبور</label>
+                </div>
+                <button type="submit" class="tac-btn" style="width:100%; justify-content:center;">تایید هویت</button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="form-register" style="display:none;" onsubmit="App.handleRegister(event)">
+                <div class="form-group">
+                    <input type="text" id="reg-name" class="form-input" placeholder=" " required minlength="3">
+                    <label class="form-label">نام فرمانده (Callsign)</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="reg-email" class="form-input" placeholder=" " required>
+                    <label class="form-label">ایمیل امنیتی</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-pass" class="form-input" placeholder=" " required minlength="6">
+                    <label class="form-label">رمز عبور</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" style="position:static; margin-bottom:10px; display:block;">انتخاب کشور</label>
+                    <div class="flag-grid" id="flag-grid"></div>
+                    <input type="hidden" id="reg-country" required>
+                </div>
+                <button type="submit" class="tac-btn" style="width:100%; justify-content:center;">ثبت نهایی</button>
+            </form>
+
+            <button onclick="App.closeAuth()" style="position:absolute; top:20px; left:20px; background:none; border:none; color:#666; font-size:2rem; cursor:pointer;">×</button>
+        </div>
+    </div>
+
+    <!-- FLAG SELECTOR MODAL -->
+    <div class="modal-overlay" id="flag-modal">
+        <div class="auth-panel" style="max-width:600px;">
+            <h2 style="font-family:var(--font-display); color:var(--c-primary); margin-bottom:30px;">SELECT FACTION</h2>
+            <div class="flag-grid" id="main-flag-grid" style="max-height:400px;"></div>
+            <button onclick="document.getElementById('flag-modal').style.display='none'" class="tac-btn" style="width:100%; justify-content:center; margin-top:30px;">تایید</button>
+        </div>
+    </div>
+
+    <!-- 3D ALERT -->
+    <div id="alert-system" onclick="App.dismissAlert()">
+        <div class="alert-card" id="alert-card">
+            <span class="alert-icon">⚠️</span>
+            <div class="alert-title">ACCESS DENIED</div>
+            <div class="alert-msg">شما هنوز ثبت نام نکرده‌اید</div>
         </div>
     </div>
 
 <script>
-    // --- STATE MANAGEMENT ---
-    const state = {
+/**
+ * WW3 SIMULATOR - CORE ENGINE
+ * Professional Grade Frontend Architecture
+ */
+
+// --- DATA: COUNTRIES & FLAGS ---
+const COUNTRIES = [
+    { code: 'us', name: 'ایالات متحده آمریکا' },
+    { code: 'ru', name: 'روسیه' },
+    { code: 'cn', name: 'چین' },
+    { code: 'ir', name: 'جمهوری اسلامی ایران' },
+    { code: 'gb', name: 'بریتانیا' },
+    { code: 'fr', name: 'فرانسه' },
+    { code: 'de', name: 'آلمان' },
+    { code: 'il', name: 'اسرائیل' },
+    { code: 'sa', name: 'عربستان سعودی' },
+    { code: 'tr', name: 'ترکیه' },
+    { code: 'in', name: 'هند' },
+    { code: 'pk', name: 'پاکستان' },
+    { code: 'kp', name: 'کره شمالی' },
+    { code: 'kr', name: 'کره جنوبی' },
+    { code: 'jp', name: 'ژاپن' },
+    { code: 'ua', name: 'اوکراین' },
+    { code: 'br', name: 'برزیل' },
+    { code: 'eg', name: 'مصر' },
+];
+
+// --- STATE MANAGEMENT ---
+const Store = {
+    state: {
         authenticated: false,
-        commander: null
-    };
-
-    // --- CINEMATIC LOADER LOGIC ---
-    const logs = [
-        "LOADING TACTICAL MAPS...",
-        "CONNECTING TO SATELLITE UPLINK...",
-        "DECRYPTING ENEMY PROTOCOLS...",
-        "CALIBRATING NUCLEAR YIELD...",
-        "SYSTEM READY."
-    ];
+        user: null,
+        selectedCountry: { code: 'un', name: 'UNITED NATIONS' },
+        currentTab: 'login'
+    },
     
-    let p = 0;
-    const pBar = document.getElementById('p-bar');
-    const sysLog = document.getElementById('sys-log');
+    set(key, value) {
+        this.state[key] = value;
+        this.persist();
+    },
     
-    const loadInterval = setInterval(() => {
-        p += Math.random() * 15;
-        if(p > 100) p = 100;
-        pBar.style.width = p + '%';
-        
-        const logIndex = Math.min(Math.floor(p / 25), logs.length - 1);
-        sysLog.innerText = logs[logIndex];
-
-        if(p === 100) {
-            clearInterval(loadInterval);
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                    const menu = document.getElementById('main-menu');
-                    menu.style.display = 'flex';
-                    requestAnimationFrame(() => menu.style.opacity = '1');
-                }, 800);
-            }, 600);
+    persist() {
+        localStorage.setItem('ww3_sim_data', JSON.stringify(this.state));
+    },
+    
+    load() {
+        const saved = localStorage.getItem('ww3_sim_data');
+        if (saved) {
+            try { Object.assign(this.state, JSON.parse(saved)); } catch(e) {}
         }
-    }, 400);
+    }
+};
 
+// --- PARTICLE BACKGROUND ENGINE ---
+class ParticleSystem {
+    constructor() {
+        this.canvas = document.getElementById('bg-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.init();
+        this.animate();
+    }
+    
+    resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+    }
+    
+    init() {
+        for(let i=0; i<80; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 0.5,
+                alpha: Math.random() * 0.5 + 0.1
+            });
+        }
+    }
+    
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = '#ff9d00';
+        
+        this.particles.forEach(p => {
+            p.x += p.vx; p.y += p.vy;
+            if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+            if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+            
+            this.ctx.globalAlpha = p.alpha;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            this.ctx.fill();
+        });
+        
+        // Draw connections
+        this.ctx.strokeStyle = '#ff9d00';
+        this.ctx.lineWidth = 0.5;
+        for(let i=0; i<this.particles.length; i++) {
+            for(let j=i+1; j<this.particles.length; j++) {
+                const dx = this.particles[i].x - this.particles[j].x;
+                const dy = this.particles[i].y - this.particles[j].y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if(dist < 120) {
+                    this.ctx.globalAlpha = (1 - dist/120) * 0.2;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                    this.ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// --- APPLICATION CONTROLLER ---
+const App = {
+    init() {
+        Store.load();
+        new ParticleSystem();
+        this.bootSequence();
+        this.renderFlags();
+        this.updateUI();
+    },
+    
+    bootSequence() {
+        const logs = [
+            "LOADING TACTICAL ASSETS...",
+            "ESTABLISHING SECURE UPLINK...",
+            "DECRYPTING GLOBAL MAP DATA...",
+            "CALIBRATING DEFENSE SYSTEMS...",
+            "AUTHENTICATING BIOMETRICS...",
+            "SYSTEM OPERATIONAL."
+        ];
+        
+        let progress = 0;
+        const bar = document.getElementById('boot-bar');
+        const logEl = document.getElementById('boot-log');
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 12 + 3;
+            if(progress > 100) progress = 100;
+            bar.style.width = progress + '%';
+            
+            const logIdx = Math.min(Math.floor(progress / 18), logs.length - 1);
+            logEl.innerText = logs[logIdx];
+            
+            if(progress === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('boot-sequence').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('boot-sequence').style.display = 'none';
+                        const menu = document.getElementById('command-center');
+                        menu.style.display = 'grid';
+                        requestAnimationFrame(() => menu.style.opacity = '1');
+                    }, 1000);
+                }, 800);
+            }
+        }, 300);
+    },
+    
+    renderFlags() {
+        const createFlagHTML = (country, onClick) => `
+            <div class="flag-option" data-code="${country.code}" onclick="${onClick}">
+                <img src="https://flagcdn.com/w160/${country.code}.png" alt="${country.name}" loading="lazy">
+            </div>
+        `;
+        
+        // Render for registration
+        document.getElementById('flag-grid').innerHTML = 
+            COUNTRIES.map(c => createFlagHTML(c, `App.selectRegCountry('${c.code}', '${c.name}')`)).join('');
+            
+        // Render for main selector
+        document.getElementById('main-flag-grid').innerHTML = 
+            COUNTRIES.map(c => createFlagHTML(c, `App.selectMainCountry('${c.code}', '${c.name}')`)).join('');
+    },
+    
+    selectRegCountry(code, name) {
+        document.querySelectorAll('#flag-grid .flag-option').forEach(el => el.classList.remove('selected'));
+        document.querySelector(`#flag-grid [data-code="${code}"]`).classList.add('selected');
+        document.getElementById('reg-country').value = JSON.stringify({code, name});
+    },
+    
+    selectMainCountry(code, name) {
+        Store.set('selectedCountry', {code, name});
+        this.updateFlagDisplay();
+        document.getElementById('flag-modal').style.display = 'none';
+    },
+    
+    updateFlagDisplay() {
+        const c = Store.state.selectedCountry;
+        document.getElementById('current-flag-img').src = `https://flagcdn.com/w160/${c.code}.png`;
+        document.getElementById('current-flag-name').innerText = c.name;
+    },
+    
+    openFlagSelector() {
+        const modal = document.getElementById('flag-modal');
+        modal.style.display = 'flex';
+        requestAnimationFrame(() => modal.style.opacity = '1');
+    },
+    
     // --- AUTH SYSTEM ---
-    function openAuth() {
-        if(state.authenticated) return;
-        const modal = document.getElementById('reg-modal');
+    openAuth() {
+        if(Store.state.authenticated) return;
+        const modal = document.getElementById('auth-modal');
         modal.style.display = 'flex';
         requestAnimationFrame(() => {
             modal.style.opacity = '1';
-            modal.querySelector('.reg-card').style.transform = 'translateY(0)';
+            modal.querySelector('.auth-panel').style.transform = 'translateY(0) scale(1)';
         });
-    }
-
-    function closeAuth() {
-        const modal = document.getElementById('reg-modal');
+    },
+    
+    closeAuth() {
+        const modal = document.getElementById('auth-modal');
         modal.style.opacity = '0';
-        modal.querySelector('.reg-card').style.transform = 'translateY(30px)';
+        modal.querySelector('.auth-panel').style.transform = 'translateY(40px) scale(0.95)';
         setTimeout(() => modal.style.display = 'none', 400);
-    }
-
-    function handleRegister(e) {
+    },
+    
+    switchTab(tab) {
+        Store.state.currentTab = tab;
+        document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+        document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+    },
+    
+    handleLogin(e) {
         e.preventDefault();
-        const name = document.getElementById('cmd-name').value;
-        if(name.length < 3) return;
-
-        state.authenticated = true;
-        state.commander = name;
-        
-        // Update UI
-        const btn = document.getElementById('btn-auth');
-        btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> ${name}`;
-        btn.style.borderColor = '#0f0';
-        btn.style.color = '#0f0';
-        
-        closeAuth();
-    }
-
-    // --- GAME ACTIONS & ERROR HANDLING ---
-    function gameAction(type) {
-        if(!state.authenticated) {
-            triggerError();
+        // Simulate API call
+        setTimeout(() => {
+            Store.set('authenticated', true);
+            Store.set('user', { name: 'COMMANDER', email: e.target[0].value });
+            this.closeAuth();
+            this.updateUI();
+        }, 800);
+    },
+    
+    handleRegister(e) {
+        e.preventDefault();
+        const countryVal = document.getElementById('reg-country').value;
+        if(!countryVal) {
+            this.showAlert("لطفاً یک کشور را انتخاب کنید");
             return;
         }
-        console.log(`Starting ${type} as ${state.commander}`);
-        // Game logic here
-    }
-
-    function triggerError() {
-        const overlay = document.getElementById('error-overlay');
-        const card = document.getElementById('err-card');
+        
+        setTimeout(() => {
+            const country = JSON.parse(countryVal);
+            Store.set('authenticated', true);
+            Store.set('user', { 
+                name: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value 
+            });
+            Store.set('selectedCountry', country);
+            this.closeAuth();
+            this.updateUI();
+            this.updateFlagDisplay();
+        }, 1000);
+    },
+    
+    updateUI() {
+        if(Store.state.authenticated && Store.state.user) {
+            const btn = document.getElementById('btn-auth-trigger');
+            btn.innerHTML = `<svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> ${Store.state.user.name}`;
+            btn.style.borderColor = 'var(--c-success)';
+            btn.style.color = 'var(--c-success)';
+            btn.onclick = null;
+            
+            document.getElementById('user-display').innerText = `${Store.state.user.name} | ${Store.state.selectedCountry.name}`;
+        } else {
+            this.updateFlagDisplay();
+        }
+    },
+    
+    navigate(section) {
+        if(!Store.state.authenticated) {
+            this.showAlert("شما هنوز ثبت نام نکرده‌اید");
+            return;
+        }
+        console.log(`Navigating to ${section}...`);
+        // Game logic routing here
+    },
+    
+    showAlert(msg) {
+        const overlay = document.getElementById('alert-system');
+        const card = document.getElementById('alert-card');
         overlay.style.display = 'flex';
         
         requestAnimationFrame(() => {
-            overlay.style.opacity = '1'; // Note: add transition to overlay in CSS if needed
             card.style.opacity = '1';
-            card.style.transform = 'rotateX(0deg) scale(1)';
-            card.style.animation = 'shake 0.5s ease-in-out';
+            card.style.transform = 'perspective(800px) rotateX(0deg) scale(1)';
+            card.style.animation = 'shake3D 0.6s ease-in-out';
+            card.querySelector('.alert-msg').innerText = msg;
         });
-    }
-
-    function dismissError() {
-        const overlay = document.getElementById('error-overlay');
-        const card = document.getElementById('err-card');
+    },
+    
+    dismissAlert() {
+        const card = document.getElementById('alert-card');
         card.style.opacity = '0';
-        card.style.transform = 'rotateX(10deg) scale(0.9)';
+        card.style.transform = 'perspective(800px) rotateX(10deg) scale(0.9)';
+        card.style.animation = 'none';
         setTimeout(() => {
-            overlay.style.display = 'none';
-            card.style.animation = 'none';
+            document.getElementById('alert-system').style.display = 'none';
         }, 300);
     }
+};
+
+// Initialize when DOM is ready
+window.addEventListener('DOMContentLoaded', () => App.init());
 </script>
 
 </body>
