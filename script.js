@@ -1,5 +1,5 @@
 /* ============================================
-   مانیسو | MANISO — script.js
+   مانیسو | MANISO — script.js (FANTASY EDITION)
    ============================================ */
 (function(){
 'use strict';
@@ -10,13 +10,13 @@ const $$ = s => [...document.querySelectorAll(s)];
 /* ---------- داده‌ها ---------- */
 const DB = [
  {id:1, fa:'تک‌روی سطح‌بندی', en:'Solo Leveling', slug:'solo-leveling', type:'منهوا', genres:['اکشن','فانتزی','سیستمی'], rating:9.8, views:8420000, chs:201, time:'۲۳ دقیقه پیش', day:1, hot:true, featured:true,
-  desc:'سونگ جین‌وو، ضعیف‌ترین شکارچی رتبه‌ی E، در سیاه‌چالی مرگبار جانش را از دست می‌دهد؛ اما به‌جای مرگ، «سیستم» را دریافت می‌کند — قدرتی که فقط به او اجازه‌ی سطح‌بندی می‌دهد.'},
+  desc:'سونگ جین‌وو، ضعیف‌ترین شکارچی رتبه‌ی E، در سیاه‌چالی مرگبار جانش را از دست می‌دهد؛ اما به‌جای مرگ، «سیستم» را دریافت می‌کند.'},
  {id:2, fa:'خواننده‌ی دانای کل', en:"Omniscient Reader's Viewpoint", slug:'omniscient-reader', type:'منهوا', genres:['فانتزی','سیستمی','درام'], rating:9.6, views:6150000, chs:165, time:'۱ ساعت پیش', day:4, hot:true, featured:true,
   desc:'کیم دوک‌جا تنها خواننده‌ی رمانی ۳۱۴۹ قسمتی است که هیچ‌کس نخوانده… تا روزی که دنیای واقعی دقیقاً همان رمان می‌شود.'},
  {id:3, fa:'آغازی پس از پایان', en:'The Beginning After The End', slug:'beginning-after-end', type:'منهوا', genres:['فانتزی','تناسخ','ماجراجویی'], rating:9.5, views:5820000, chs:214, time:'۳ ساعت پیش', day:2, featured:true,
-  desc:'پادشاهی قدرتمند پس از مرگ در دنیایی جادویی دوباره متولد می‌شود؛ این‌بار با خاطرات یک عمر پادشاهی.'},
+  desc:'پادشاهی قدرتمند پس از مرگ در دنیایی جادویی دوباره متولد می‌شود.'},
  {id:4, fa:'بازگشت فرقه‌ی کوه هوا', en:'Return of the Mount Hua Sect', slug:'mount-hua', type:'منهوا', genres:['رزمی','تاریخی','کمدی'], rating:9.4, views:4910000, chs:148, time:'دیروز', day:3, hot:true, featured:true,
-  desc:'چونگ‌میونگ صد سال بعد در فرقه‌ای ورشکسته چشم باز می‌کند. وقت بازسازی است — با مشت و شمشیر!'},
+  desc:'چونگ‌میونگ صد سال بعد در فرقه‌ای ورشکسته چشم باز می‌کند. وقت بازسازی است!'},
  {id:5, fa:'ماشین نانو', en:'Nano Machine', slug:'nano-machine', type:'منهوا', genres:['رزمی','اکشن','علمی‌تخیلی'], rating:9.2, views:4230000, chs:176, time:'۵ دقیقه پیش', day:5, hot:true},
  {id:6, fa:'برج خدا', en:'Tower of God', slug:'tower-of-god', type:'منهوا', genres:['فانتزی','ماجراجویی','رمز و راز'], rating:9.1, views:3940000, chs:590, time:'۲ روز پیش', day:0},
  {id:7, fa:'افسانه‌ی شمشیر شمالی', en:'Legend of the Northern Blade', slug:'northern-blade', type:'منهوا', genres:['رزمی','تاریخی','درام'], rating:9.3, views:3410000, chs:187, time:'۴ ساعت پیش', day:1},
@@ -93,7 +93,7 @@ function updateAuthUI(){
       if(!e.target.closest('.user-menu')){ const drop=$('#userDrop'); if(drop) drop.classList.remove('open'); }
     });
   } else {
-    area.innerHTML = `<button class="hbtn auth-btn" id="authOpenBtn"><svg><use href="#i-user"/></svg><span>ورود</span></button>`;
+    area.innerHTML = `<button class="magic-btn auth-btn" id="authOpenBtn"><svg><use href="#i-user"/></svg><span>ورود / ثبت‌نام</span></button>`;
     $('#authOpenBtn').onclick = () => openAuthModal();
   }
 }
@@ -208,8 +208,8 @@ setSpot(0);spAuto();
 let curType='all', curGenre='all';
 function renderChips(){
   const gens=[...new Set(DB.flatMap(m=>m.genres))].slice(0,10);
-  $('#genreChips').innerHTML=`<button class="gchip on" data-g="all">همه‌ی ژانرها</button>`+
-    gens.map(g=>`<button class="gchip" data-g="${g}">${g}</button>`).join('');
+  $('#genreChips').innerHTML=`<button class="magic-btn gchip on" data-g="all">همه‌ی ژانرها</button>`+
+    gens.map(g=>`<button class="magic-btn gchip" data-g="${g}">${g}</button>`).join('');
   $$('#genreChips .gchip').forEach(b=>b.onclick=()=>{
     $$('#genreChips .gchip').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');curGenre=b.dataset.g;renderGrid();
@@ -307,7 +307,7 @@ let curDay=new Date().getDay(); curDay=(curDay+1)%7;
 function renderDays(){
   $('#dayTabs').innerHTML=DAYS.map((d,i)=>{
     const n=DB.filter(m=>m.day===i).length;
-    return `<button class="day-tab ${i===curDay?'on':''}" data-d="${i}">${d}<span class="d">${faNum(n)} اثر</span></button>`;
+    return `<button class="magic-btn day-tab ${i===curDay?'on':''}" data-d="${i}">${d}<span class="d">${faNum(n)} اثر</span></button>`;
   }).join('');
   $$('#dayTabs .day-tab').forEach(b=>b.onclick=()=>{
     $$('#dayTabs .day-tab').forEach(x=>x.classList.remove('on'));
@@ -422,20 +422,27 @@ sInput.addEventListener('input',()=>{
 sInput.addEventListener('keydown',e=>{if(e.key==='Enter'){const f=sDrop.querySelector('.sr-item');if(f)f.click();}});
 document.addEventListener('click',e=>{if(!e.target.closest('.hsearch'))sDrop.classList.remove('open');});
 
-/* ---------- دکمه‌های هدر ---------- */
+/* ===== دکمه‌های هدر (تاس، ماه، سه خط) ===== */
+// 🎲 تاس - فصل شانسی
 $('#randomBtn').onclick=()=>{
   const m=DB[Math.random()*DB.length|0], ch=1+(Math.random()*m.chs|0);
   toast(`فصل شانسی: «${m.fa}» — فصل ${faNum(ch)}`,'info');
   openReader(m.id,ch);
 };
+
+// 🌙 ماه - تغییر تم
 $('#themeBtn').onclick=function(){
   document.body.classList.toggle('light');
   const isLight=document.body.classList.contains('light');
   $('#themeIcon').innerHTML=`<use href="${isLight?'#i-sun':'#i-moon'}"/>`;
-  toast(isLight?'پوسته‌ی روشن فعال شد':'پوسته‌ی تاریک فعال شد','info');
+  toast(isLight?'پوسته‌ی روشن فعال شد ☀️':'پوسته‌ی تاریک فعال شد 🌙','info');
 };
+
+// ☰ سه خط - منوی موبایل
 $('#burger').onclick=()=>$('#mobMenu').classList.toggle('open');
 $$('#mobMenu a').forEach(a=>a.onclick=()=>$('#mobMenu').classList.remove('open'));
+
+// 📧 خبرنامه
 $('#newsForm').addEventListener('submit',e=>{e.preventDefault();toast('عضویتت در خبرنامه ثبت شد!','success');e.target.reset();});
 
 /* ---------- اسکرول‌ها ---------- */
@@ -479,5 +486,5 @@ document.addEventListener('keydown',e=>{
 })();
 
 /* ============================================
-   پایان script.js — اگر این خط رو می‌بینی، فایل کامله ✔
+   پایان script.js — FANTASY EDITION ✔
    ============================================ */
